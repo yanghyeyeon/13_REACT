@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            white-space: nowrap;
+        }
+        .header {
+            user-select: none;
+
+            background-color: black;
+            color: white;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 10vh;
+            width: 100vw;
+
+            font-size: 40px;
+        }
+        .footer{
+            user-select: none;
+
+            background-color: black;
+            color: white;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            height: 8vh;
+            width: 100vw;
+
+            font-size: 15px;
+        }
+        .todo-list label {
+            margin: 20px;
+        }
+
+        #headerTitle{
+            margin: 20px;
+        }
+
+        #todolist{
+            background-color: white;
+            border: 1px solid black;
+
+            height: 70vh;
+            width: 1000px;
+        }
+
+        button {
+            user-select: none;
+        }
+        
+        #mainTitle {
+            user-select: none;
+            font-size: 30px;
+            font-weight: 900;
+        }
+        .main{
+            background-color: aliceblue;
+
+            display: flex;
+            justify-content: space-evenly;
+            align-items: center;
+            flex-direction: column;
+
+            position: relative;
+            top: 10vh;
+            left: 0;
+            height: 82vh;
+            width: 100vw;   
+        }
+
+        
+
+    </style>
+</head>
+<body>
+    <div id = "root"></div>
+
+    <script type = "text/babel">
+
+        const {useState} = React;
+
+        function Header() {
+            return (
+                <div className='header'>
+                    <h1 id='headerTitle'>오늘의 할일! {new Date().toLocaleDateString()}</h1>
+                </div>
+            )
+        }
+
+        function TodoList() {
+
+            const [todos, setTodos] = useState([
+                {id: 1, todo:'할일 목록을 추가할 것', isDone: false}
+            ])
+
+            const [inputText, setInputText] = useState('');
+            const [nextId, setNextId] = useState(2);
+
+            const onChangeHandler = e => setInputText(e.target.value);
+
+            const onClickHandler = () => {
+                const todosCopy = todos.concat({
+                    id: nextId,
+                    todo : inputText,
+                });
+
+                setNextId(nextId + 1);
+                setTodos(todosCopy);
+                setInputText('');
+            }
+
+            const todoList = todos.map(todo => <li key={todo.id}>{todo.todo}</li>)
+
+            return (
+                <div>
+                    <ul id='todolist'>
+                        {todoList}<TodoItems/>
+                    </ul>
+                    <ul id='inputSection'>
+                        <input value={inputText} onChange={onChangeHandler}/>
+                        <button onClick={onClickHandler}>추가</button>
+                    </ul>
+                </div>
+            )
+        }
+
+        function TodoItems({todos, setTodos}) {
+
+            const onRemove = id => {
+
+                const changeTodos = todos.filter(todo => todo.id !== id )
+
+                setTodos(changeTodos);
+            }
+
+            return(
+                <div>
+                    <button key={todo.id} onCilck={() => onRemove(todo.id)}>x</button>
+                    // <input type='ckeckbox'/>
+                </div>
+            )
+        }
+
+        function Content() {
+
+            return(
+                <div className='main'>
+                    <h3 id='mainTitle'>ToDo-List</h3>
+                    <TodoList/>
+                </div>
+            )
+
+        }
+
+        function Footer() {
+            return (
+                <div className='footer'>
+                    <h4>Copyright 2022. team-greedy all rights reserved.</h4>
+                </div>
+            )
+        }
+
+        function App() {
+            return (
+                <>
+                    <Header/>
+                    <Content/>
+                    <Footer/>
+                </>
+            )
+
+        }
+        
+        ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+    </script>
+</body>
+</html>
