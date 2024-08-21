@@ -135,7 +135,7 @@
             return (
                 <div>
                     <ul id='todolist'>
-                        {todoList}<TodoItems/>
+                        {todoList}
                     </ul>
                     <ul id='inputSection'>
                         <input value={inputText} onChange={onChangeHandler}/>
@@ -156,8 +156,8 @@
 
             return(
                 <div>
+                    <label>{todo.todo}</label>
                     <button key={todo.id} onCilck={() => onRemove(todo.id)}>x</button>
-                    // <input type='ckeckbox'/>
                 </div>
             )
         }
