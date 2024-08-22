@@ -135,7 +135,7 @@
             return (
                 <div>
                     <ul id='todolist'>
-                        {todoList}
+                        <TodoItems todos={todos} setTodos={setTodos}/>
                     </ul>
                     <ul id='inputSection'>
                         <input value={inputText} onChange={onChangeHandler}/>
@@ -155,10 +155,22 @@
             }
 
             return(
-                <div>
-                    <label>{todo.todo}</label>
-                    <button key={todo.id} onCilck={() => onRemove(todo.id)}>x</button>
-                </div>
+                <>
+                {
+                    todos.map
+                    ( todo => 
+                    <p>
+                    <label 
+                        htmlFor={ todo.id } 
+                        style={ {textDecoration: todo.isDone? 'line-through': 'none'} }
+                    >
+                        {todo.todo}
+                    </label>
+                    <button onClick={ () => onRemove(todo.id) }>x</button>
+                    </p>
+                    )
+                }
+                </>
             )
         }
 
