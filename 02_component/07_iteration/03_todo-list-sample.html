@@ -156,11 +156,10 @@
 
             return(
                 <>
-                {
-                    todos.map
-                    ( todo => 
-                    <p>
-                    <label 
+                    {
+                        todos.map ( todo => 
+                    <p key={todo.id}>
+                        <label 
                         htmlFor={ todo.id } 
                         style={ {textDecoration: todo.isDone? 'line-through': 'none'} }
                     >
